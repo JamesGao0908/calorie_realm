@@ -1,7 +1,7 @@
 {
-    "app_id": "application-0-yxeed",
+    "app_id": "calorie_real_mongodb-rrzuy",
     "config_version": 20210101,
-    "name": "Application-0",
+    "name": "calorie_real_mongoDB",
     "location": "AU",
     "deployment_model": "LOCAL"
 }
