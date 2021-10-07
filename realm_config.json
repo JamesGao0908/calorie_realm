@@ -1,0 +1,7 @@
+{
+    "app_id": "calorie_real_mongodb-rrzuy",
+    "config_version": 20210101,
+    "name": "calorie_real_mongoDB",
+    "location": "AU",
+    "deployment_model": "LOCAL"
+}
