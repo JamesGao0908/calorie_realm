@@ -5,8 +5,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -14,7 +14,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from "@material-ui/core/styles";
-
+// import Cookies from 'js-cookie';
+import * as actionCreator from './store/actionCreator';
 
 function Copyright() {
   return (
@@ -65,25 +66,22 @@ class SignInSide extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      uname:'',
+      email:'',
       pwd:'',
-      checked:false,
+      rememberme:false,
     }
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    // this.handleLogin = this.handleLogin.bind(this)
   }
 
-  handleFormSubmit(e,uname,pwd,checked){
-    e.preventDeafult();
-    console.log(uname+" "+pwd);
+  componentDidMount(){
+    // console.log('登陆页面装配')
+    // console.log(this.props.login)
   }
-  
+
+
   render(){
     const {classes} = this.props;
-    
-    if(this.props.login) 
-    {
-      return <Redirect to='/dashboard' />;
-    }else{
+    if (this.props.login === false){
       return (
         <Grid container component="main" className={classes.root}>
           <CssBaseline />
@@ -96,8 +94,9 @@ class SignInSide extends React.Component {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form} noValidate onSubmit={e=>this.handleFormSubmit(e,this.state.uname,this.state.pwd,this.state.checked)}>
+              <form className={classes.form} noValidate  onSubmit={(e)=>this.props.handleLogin(e,this.state.email,this.state.pwd,this.state.rememberme)} >
                 <TextField
+                  onChange = {e=>this.setState({email:e.target.value})}
                   variant="outlined"
                   margin="normal"
                   required
@@ -109,6 +108,7 @@ class SignInSide extends React.Component {
                   autoFocus
                 />
                 <TextField
+                  onChange = {e=>this.setState({pwd:e.target.value})}
                   variant="outlined"
                   margin="normal"
                   required
@@ -119,10 +119,10 @@ class SignInSide extends React.Component {
                   id="password"
                   autoComplete="current-password"
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
-                />
+                /> */}
                 <Button
                   type="submit"
                   fullWidth
@@ -152,18 +152,24 @@ class SignInSide extends React.Component {
           </Grid>
         </Grid>
       );
+    }else{
+      return <Redirect to="/dashboard" />
     }
   }
 }
 
 const mapState = (state)=>{
   return { 
-    login : state.get('signIn').get('login'),
+    login : state.get('signIn').get('loginStatus'),
   }
 }
 const mapDispatch = (dispatch) => {
   return {
-
+    handleLogin(e,email,pwd,checked){
+      e.preventDefault();
+      console.log(email,pwd)
+      dispatch(actionCreator.login(email,pwd,checked))
+    },
   }
 }
 export default connect( mapState,mapDispatch) (withStyles(styles)(SignInSide));

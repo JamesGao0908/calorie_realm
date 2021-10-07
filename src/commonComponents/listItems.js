@@ -18,7 +18,7 @@ export const mainListItems = (
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="仪表板" />
+        <ListItemText primary="Dashboard" />
       </ListItem>
     </Link>
 
@@ -27,7 +27,7 @@ export const mainListItems = (
         <ListItemIcon>
           <CalendarTodayIcon />
         </ListItemIcon>
-        <ListItemText primary="走势" />
+        <ListItemText primary="Graphies" />
       </ListItem>
     </Link>
 
@@ -36,7 +36,7 @@ export const mainListItems = (
         <ListItemIcon>
           <CreateIcon />
         </ListItemIcon>
-        <ListItemText primary="记录" />
+        <ListItemText primary="record" />
       </ListItem>
     </Link>
     
@@ -45,7 +45,7 @@ export const mainListItems = (
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
-        <ListItemText primary="设置" />
+        <ListItemText primary="setting" />
       </ListItem>
     </Link>
 

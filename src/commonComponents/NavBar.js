@@ -122,7 +122,7 @@ export default function NavBar(){
           <MenuIcon />
         </IconButton>
         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            界面
+          Dashboard
         </Typography>
         <Link to='/'><ExitToAppIcon style={{color:'white'}} onClick={ ()=>{Cookies.remove('token'); dispatch({ type:'signIn_logout'});} }/></Link>
       </Toolbar>

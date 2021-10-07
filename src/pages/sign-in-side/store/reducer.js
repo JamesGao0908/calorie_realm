@@ -1,13 +1,16 @@
 import { fromJS } from 'immutable';
 
 const defaultState = fromJS({
-    login : false,
-    login_processing: false,
+  loginStatus : false,
+  userInfo: ''
 });
 
 export default function reducer (state = defaultState, action ) {
-    switch (action.type) {
-        default :
-            return state;
+  switch (action.type) {
+    case 'load_user_info':{
+      return state.merge( {'userInfo': action.data, 'loginStatus' : true} );
     }
+    default :
+      return state;
+  }
 }

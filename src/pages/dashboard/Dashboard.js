@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
 
   render(){
     const {classes} = this.props;
-    if( !this.props.data.signIn.login )
+    if( !this.props.data.signIn.loginStatus )
     {
       return <Redirect to='/' />
     }
