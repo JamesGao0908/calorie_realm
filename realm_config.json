@@ -3,6 +3,5 @@
     "config_version": 20210101,
     "name": "calorie_real_mongoDB",
     "location": "AU",
-    "deployment_model": "LOCAL",
-    "environment": "testing"
+    "deployment_model": "LOCAL"
 }
