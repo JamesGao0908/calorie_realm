@@ -48,7 +48,7 @@ class Record extends React.Component {
   }
 
   componentDidMount(){
-    console.log( this.state.date )
+
   }
 
   handleDateChange(e){
@@ -98,8 +98,8 @@ const mapState = (state)=>{
 const mapDispatch = (dispatch) => {
   return {
     handleSubmitRecorder(e,d,w,i){
-      console.log(e,d,w,i)
-      dispatch( actionCreator.insertRecorder(d,w,i) )
+      // console.log(e,d,w,i)
+      dispatch( actionCreator.insertRecorder(e,d,w,i) )
     },
   }
 }

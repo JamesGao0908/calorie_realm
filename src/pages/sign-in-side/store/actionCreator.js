@@ -7,7 +7,7 @@ export const login = (email,pwd,rememberme)=>{
       pwd,
     }})
     .then( res=>{
-      console.log(res)
+      // console.log(res)
       // 成功获取，res=>[] 则账号密码错误
       if(res === []){
 

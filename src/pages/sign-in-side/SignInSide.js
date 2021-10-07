@@ -167,7 +167,7 @@ const mapDispatch = (dispatch) => {
   return {
     handleLogin(e,email,pwd,checked){
       e.preventDefault();
-      console.log(email,pwd)
+      // console.log(email,pwd)
       dispatch(actionCreator.login(email,pwd,checked))
     },
   }
