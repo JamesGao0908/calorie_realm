@@ -70,12 +70,21 @@ class SignInSide extends React.Component {
       pwd:'',
       rememberme:false,
     }
-    // this.handleLogin = this.handleLogin.bind(this)
   }
 
   componentDidMount(){
-    // console.log('登陆页面装配')
-    // console.log(this.props.login)
+
+  }
+
+  componentDidUpdate(){
+    if(this.props.loginError === true){
+      console.log('条件触发了')
+      setTimeout(()=>{
+        this.props.handleLoginErrorReset();
+        this.setState({pwd:''})
+      },5000)
+      
+    }
   }
 
 
@@ -105,6 +114,8 @@ class SignInSide extends React.Component {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  error={this.props.loginError}
+                  helperText={this.props.loginHelpText}
                   autoFocus
                 />
                 <TextField
@@ -118,6 +129,8 @@ class SignInSide extends React.Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  error={this.props.loginError}
+                  helperText={this.props.loginHelpText}
                 />
                 {/* <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
@@ -161,15 +174,19 @@ class SignInSide extends React.Component {
 const mapState = (state)=>{
   return { 
     login : state.get('signIn').get('loginStatus'),
+    loginError: state.get('signIn').get('loginError'),
+    loginHelpText: state.get('signIn').get('loginHelpText'),
   }
 }
 const mapDispatch = (dispatch) => {
   return {
     handleLogin(e,email,pwd,checked){
       e.preventDefault();
-      // console.log(email,pwd)
       dispatch(actionCreator.login(email,pwd,checked))
     },
+    handleLoginErrorReset(){
+      dispatch(actionCreator.loginErrorReset())
+    }
   }
 }
 export default connect( mapState,mapDispatch) (withStyles(styles)(SignInSide));

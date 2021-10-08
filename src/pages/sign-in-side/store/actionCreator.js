@@ -7,12 +7,10 @@ export const login = (email,pwd,rememberme)=>{
       pwd,
     }})
     .then( res=>{
-      // console.log(res)
-      // 成功获取，res=>[] 则账号密码错误
-      if(res === []){
-
-      }else{
+      if(res.data !== null && res.data !== []){
         dispatch(loadUserInfo(res.data))
+      }else{
+        dispatch(loginFailed())
       }
     })
     .catch( err=>console.log(err) )
@@ -23,4 +21,12 @@ export const login = (email,pwd,rememberme)=>{
 const loadUserInfo = (e)=>({
   type: 'load_user_info',
   data: e
+})
+
+const loginFailed = ()=>({
+  type: 'login_fail',
+})
+
+export const loginErrorReset = ()=>({
+  type: 'login_error_reset'
 })
