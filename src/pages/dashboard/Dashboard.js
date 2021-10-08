@@ -8,6 +8,8 @@ import 'antd/dist/antd.css';
 import { Calendar, Badge } from 'antd';
 // import * as actionCreator from './store/actionCreator';
 
+import * as signIn_actionCreator from '../sign-in-side/store/actionCreator';
+
 const styles = theme=>({
   root: {
     display: 'flex',
@@ -31,12 +33,17 @@ class Dashboard extends React.Component {
       recorders : '',
     }
   }
+
+  componentWillUnmount(){
+    this.props.handleTestLogin();
+  }
+
   componentDidMount(){
   }
 
   render(){
     const {classes} = this.props;
-    if( !this.props.data.signIn.loginStatus )
+    if( !this.props.loginStatus )
     {
       return <Redirect to='/' />
     }
@@ -56,31 +63,16 @@ class Dashboard extends React.Component {
   }
 
   getListData = (value)=> {
-    const dataInfo = value.format("YYYY-MM-DD");
-    // console.log( value.format("YYYY-MM-DD") );
-    // console.log( `${value.month()}/${value.day()}/${value.year()}` );
-    let listData;
-    this.props.recorders.map( (item)=>{
-      // console.log( ` 比较 ${this.formatchanger(item.date)}  ${dataInfo} `  )
-      if( this.formatchanger(item.date) === dataInfo ){
-        // console.log( ` boya ${this.formatchanger(item.date)}  ${dataInfo} `  )
-        //计算每天输入卡路里
-        const totalIntake = item.calorie_A + item.calorie_B + item.calorie_C;
-        const dailyWeight = item.weight;
-        const tmplimitation = (this.props.limitationRecord ==='') ? (this.props.limitationDash):(this.props.limitationRecord)
-        if( totalIntake > tmplimitation){
-          // console.log(this.props.limitation);
-          if( totalIntake <= (tmplimitation+ 500))
-              listData = [{type: "warning", content : `摄入${totalIntake}卡`}, { type: "success", content: `体重 ${dailyWeight}`} ];
-            else
-              listData = [{type: "error", content : `摄入${totalIntake}卡`}, { type: "success", content: `体重 ${dailyWeight}`} ];
-        }else{
-          listData = [{type: "success", content : `摄入${totalIntake}卡`}, { type: "success", content: `体重 ${dailyWeight}`} ];
-        }
-        
+    let listData;    
+    this.props.userData.recorders.map( (item)=>{
+      const a = new Date(parseInt(item.date.$date.$numberLong));
+      const newDate = a.toISOString().split('T')[0];
+      if( value.format("YYYY-MM-DD") === newDate ){
+        console.log(item)
+        listData = [{type: "success", content : `intake ${item.calorieIntake} cal`}, { type: "success", content: `${item.weight} kg`} ];
       }
-      return listData;
-    })
+      return listData
+    } );
 
     return listData || [];
   }
@@ -96,17 +88,13 @@ class Dashboard extends React.Component {
       </ul>
     );
   }
-  formatchanger = (e)=>{
-    const a = e.substring(0,4);
-    const b = e.substring(5,7);
-    const c = e.substring(8,10);
-    const d = a+'-'+b+'-'+c;
-    return d;
-  }
 }
 
 const mapState = (state)=>{
   return {
+    userData: state.get('signIn').get('userInfo'),
+    loginStatus: state.get('signIn').get('loginStatus'),
+
     data: state.toJS(),
     recorders : state.toJS().dashboard.recorders,
     limitationRecord: state.toJS().dashboard.dailyLimitation,
@@ -120,8 +108,12 @@ const mapDispatch = (dispatch) => {
     },
     handleLoadDailyLimitation(e){
       // dispatch( actionCreator.loadDailyLimitation(e) )
+    },
+    // 测试用
+    handleTestLogin(){
+      dispatch( signIn_actionCreator.login('jamesgao0908@gmail.com','1q2w3e') )
     }
   }
 }
 
-export default connect( mapState,mapDispatch) (withStyles(styles)(Dashboard));
+export default connect( mapState,mapDispatch)(withStyles(styles)(Dashboard));

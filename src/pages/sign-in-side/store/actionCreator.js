@@ -7,6 +7,7 @@ export const login = (email,pwd,rememberme)=>{
       pwd,
     }})
     .then( res=>{
+      // console.log(res.data)
       if(res.data !== null && res.data !== []){
         dispatch(loadUserInfo(res.data))
       }else{

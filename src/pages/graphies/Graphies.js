@@ -20,10 +20,10 @@ const styles = theme=>({
   },
 });
 
-class Setting extends React.Component {
+class Graphies extends React.Component {
   render(){
     const {classes} = this.props;
-    return <>
+    return  <>
       <div className={classes.root}>
         <CssBaseline />
         <NavBar />
@@ -31,7 +31,7 @@ class Setting extends React.Component {
           <div className={classes.appBarSpacer} />
           {/* onPanelChange={onPanelChange}  monthCellRender={monthCellRender}   */}
           <div> 
-            <h1>Setting</h1>
+            <h1>Graphies</h1>
           </div>
         </main>
       </div>
@@ -48,4 +48,4 @@ const mapDispatch = (dispatch) => {
   return {
   }
 }
-export default connect( mapState,mapDispatch)(withStyles(styles)(Setting));
+export default connect( mapState,mapDispatch)(withStyles(styles)(Graphies));

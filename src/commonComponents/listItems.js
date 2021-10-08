@@ -22,7 +22,7 @@ export const mainListItems = (
       </ListItem>
     </Link>
 
-    <Link to='/calendar'>
+    <Link to='/graphies'>
       <ListItem button>
         <ListItemIcon>
           <CalendarTodayIcon />
