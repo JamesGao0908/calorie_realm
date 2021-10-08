@@ -7,6 +7,7 @@ import * as actionCreator from './store/actionCreator';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NavBar from '../../commonComponents/NavBar';
 import { withStyles } from "@material-ui/core/styles";
+import { InsertDailyDocument } from './style.js';
 
 const config = {
   rules: [
@@ -16,6 +17,25 @@ const config = {
       message: 'Please select time!',
     },
   ],
+};
+
+const layout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
 };
 
 const styles = theme=>({
@@ -70,19 +90,22 @@ class Record extends React.Component {
           <div className={classes.appBarSpacer} />
           {/* onPanelChange={onPanelChange}  monthCellRender={monthCellRender}   */}
           <div> 
-            <h1>recorder</h1>
-            <Form labelCol={{ span: 4, }}  wrapperCol={{ span: 8, }} layout="horizontal">
-              <Form.Item name="date-picker" label="Date" {...config}  >
-                <DatePicker onChange={this.handleDateChange} />
-              </Form.Item>
-              <Form.Item label="Weight">
-                <InputNumber style={{width: '80%'}} min="10" max="200" step="0.1" onChange={e=>this.setState({'weight':e})} value={this.state.weight}/>&nbsp;Kg
-              </Form.Item>
-              <Form.Item label="Calorie Intake">
-                <InputNumber style={{width: '80%'}} min="0" max="5000" step="1" onChange={e=>this.setState({'calorieIntake':e})} value={this.state.calorieIntake} />&nbsp; cal
-              </Form.Item>
-            </Form>
-            <Button type="primary" html="submit"  onClick={()=>this.props.handleSubmitRecorder(this.props.email, this.state.date,this.state.weight,this.state.calorieIntake)}>submit</Button>
+            <InsertDailyDocument>
+              <Form layout="horizontal" {...layout} >
+                <Form.Item name="date-picker" label="Date" {...config} labelAlign="left" >
+                  <DatePicker onChange={this.handleDateChange} style={{ }}/>
+                </Form.Item>
+                <Form.Item label="Weight_(Kg)" required labelAlign="left">
+                  <InputNumber style={{width: '80%'}} min="10" max="200" step="0.1" onChange={e=>this.setState({'weight':e})} value={this.state.weight}/>
+                </Form.Item>
+                <Form.Item label="Calorie Intake_(Cal)" required labelAlign="left">
+                  <InputNumber style={{width: '80%'}} min="0" max="5000" step="1" onChange={e=>this.setState({'calorieIntake':e})} value={this.state.calorieIntake} />
+                </Form.Item>
+                <Form.Item labelAlign="left" wrapperCol={{ ...layout.wrapperCol, offset: 8 }} >
+                  <Button type="primary" html="submit"  onClick={()=>this.props.handleSubmitRecorder(this.props.email, this.state.date,this.state.weight,this.state.calorieIntake)}>submit</Button>
+                </Form.Item>
+              </Form>
+            </InsertDailyDocument>
           </div>
         </main>
       </div>

@@ -63,17 +63,20 @@ class Dashboard extends React.Component {
   }
 
   getListData = (value)=> {
-    let listData;    
-    this.props.userData.recorders.map( (item)=>{
-      const a = new Date(parseInt(item.date.$date.$numberLong));
-      const newDate = a.toISOString().split('T')[0];
-      if( value.format("YYYY-MM-DD") === newDate ){
-        console.log(item)
-        listData = [{type: "success", content : `intake ${item.calorieIntake} cal`}, { type: "success", content: `${item.weight} kg`} ];
-      }
-      return listData
-    } );
-
+    let listData;
+    try{
+      this.props.userData.recorders.map( (item)=>{
+        const a = new Date(parseInt(item.date.$date.$numberLong));
+        const newDate = a.toISOString().split('T')[0];
+        if( value.format("YYYY-MM-DD") === newDate ){
+          listData = [{type: "success", content : `intake ${item.calorieIntake} cal`}, { type: "success", content: `${item.weight} kg`} ];
+        }
+        return listData
+      });
+    }
+    catch{
+      
+    }
     return listData || [];
   }
   dateCellRender = (value)=> {
