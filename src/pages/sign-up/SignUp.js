@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { withStyles } from "@material-ui/core/styles";
+import * as actionCreator from "./store/actionCreator";
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Checkbox from '@material-ui/core/Checkbox';
 // import Link from '@material-ui/core/Link';
@@ -49,33 +50,68 @@ class SignUp extends React.Component{
       pwdHelperText:'',
     }
     this.handleEmailInputBlur = this.handleEmailInputBlur.bind(this);
+    this.handleEmailValidate = this.handleEmailValidate.bind(this);
+    this.handleEmailOnChange = this.handleEmailOnChange.bind(this);
     this.handlePasswordChecking = this.handlePasswordChecking.bind(this);
+    this.handlePasswordOnBlur = this.handlePasswordOnBlur.bind(this);
+    this.handlePasswordOnChange = this.handlePasswordOnChange.bind(this);
+
+    
   }
 
   handleEmailInputBlur(email){
-    this.props.handleCheckExistingEmail(email);
+    if( this.handleEmailValidate(email) ){
+      this.props.handleCheckExistingEmail(email);
+    }else{
+      this.setState({ emailError:true, emailHelperText:'invalid email format' })
+    }
+    
+  }
+  handleEmailValidate(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  handleEmailOnChange(e){
+    this.setState({ email: e});
+    if(this.handleEmailValidate(this.state.email)){
+      this.setState({ emailError: false,  emailHelperText:''})
+    }
   }
   handlePasswordChecking(pwd){
     if(pwd.length>=3 && pwd.length<=30){
       return true;
     }else{
-      this.setState({ pwdError: true, pwdHelperText:'password should contain at least 3 characters and no longer than 30 characters'})
       return false
+    }
+  }
+  handlePasswordOnBlur(){
+    if(this.handlePasswordChecking(this.state.pwd) === false){
+      this.setState({ pwdError: true, pwdHelperText:'password should contain at least 3 characters and no longer than 30 characters'});
+    }else{
+      this.setState({ pwdError: false, pwdHelperText:''});
+    }
+  }
+  handlePasswordOnChange(e){
+    this.setState({pwd:e.target.value}); 
+    if( this.handlePasswordChecking(this.state.pwd) === true){ 
+      this.setState({ pwdError: false, pwdHelperText:'' }) 
     }
   }
 
 
   componentDidMount(){
-    // setInterval(()=>{
-    //   try{
-    //     if(this.handlePasswordChecking(this.state.pwd)){
-    //       this.setState({pwdError:true, pwdHelperText:''})
-    //     }
-    //   }catch{
-
-    //   }
-    // },2000)
   }
+
+  componentDidUpdate(previousProps) {
+  if (previousProps.data !== this.props.data) {
+    if(this.props.existingEmail){
+      this.setState({ emailError:true, emailHelperText:'This email has been registered'})
+    }else{
+      this.setState({ emailError:false, emailHelperText:''})
+    }
+      
+  }
+}
 
 
   render(){
@@ -101,7 +137,7 @@ class SignUp extends React.Component{
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={e=>this.setState({email:e.target.value})}
+                  onChange={e=>this.handleEmailOnChange(e.target.value)}
                   onBlur={()=>this.handleEmailInputBlur(this.state.email)}
                   error={this.state.emailError}
                   helperText={this.state.emailHelperText}
@@ -117,8 +153,8 @@ class SignUp extends React.Component{
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  onChange={e=>this.setState({pwd:e.target.value})}
-                  onBlur={()=>{ this.handlePasswordChecking(this.state.pwd)}}
+                  onChange={e=>this.handlePasswordOnChange(e)}
+                  onBlur={()=>this.handlePasswordOnBlur()}
                   error={this.state.pwdError}
                   helperText={this.state.pwdHelperText}
                 />
@@ -135,9 +171,7 @@ class SignUp extends React.Component{
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to='/'>
-                  Already have an account? Sign in
-                </Link>
+                <Link to="/">Already have an account? Sign in</Link>
               </Grid>
             </Grid>
           </form>
@@ -153,11 +187,14 @@ class SignUp extends React.Component{
 const mapState = (state)=>{
   return { 
     login : state.get('signIn').get('loginStatus'),
+    existingEmail : state.get('register').get('emailExisting'),
+    data: state,
   }
 }
 const mapDispatch = (dispatch) => {
   return {
     handleCheckExistingEmail(email){
+      dispatch(actionCreator.checkExistingEmail(email));
     },
   }
 } 
