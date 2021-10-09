@@ -8,7 +8,6 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
 import CreateIcon from '@material-ui/icons/Create';
-
 import { Link } from "react-router-dom";
 
 export const mainListItems = (

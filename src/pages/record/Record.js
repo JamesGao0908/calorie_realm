@@ -1,5 +1,5 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
+import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
 import { Form, DatePicker, InputNumber, Button } from 'antd';
@@ -82,6 +82,10 @@ class Record extends React.Component {
 
   render(){
     const {classes} = this.props;
+    if( !this.props.loginStatus )
+    {
+      return <Redirect to='/' />
+    }else{
     return <>
       <div className={classes.root}>
         <CssBaseline />
@@ -109,13 +113,15 @@ class Record extends React.Component {
           </div>
         </main>
       </div>
-    </>   
+    </> 
+    } 
   }
 }
 
 const mapState = (state)=>{
   return { 
     email: state.get('signIn').get('userInfo').email,
+    loginStatus: state.get('signIn').get('loginStatus'),
   }
 }
 const mapDispatch = (dispatch) => {
