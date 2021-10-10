@@ -11,6 +11,15 @@ import store from './store/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+/*
+1。 注册问题 	        ✔
+6。 图表问题
+2。 邮箱验证问题
+3。 头像问题
+4。 JWT自动登录问题
+5。 授权谷歌登录问题
+7。 忘记账号和密码问题
+*/
 
 function App() {
   return (
@@ -23,7 +32,6 @@ function App() {
             <Route path='/record' exact component={Record}/>
             <Route path='/graphies' exact component={Graphies}/>
             <Route path='/setting' exact component={Setting}/>
-            {/* <Route path='/login' exact component={SignIn}/> */}
             <Route path='/register' exact component={SignUp}/>
             <Route path='*' exact={true} component={NotFound} />
           </Switch>
