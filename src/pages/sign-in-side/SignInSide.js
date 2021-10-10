@@ -80,7 +80,7 @@ class SignInSide extends React.Component {
 
   componentDidUpdate(){
     if(this.props.loginError === true){
-      console.log('条件触发了')
+      // console.log('条件触发了')
       setTimeout(()=>{
         this.props.handleLoginErrorReset();
         this.setState({pwd:''})

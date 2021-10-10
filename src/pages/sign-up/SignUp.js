@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -55,7 +55,7 @@ class SignUp extends React.Component{
     this.handlePasswordChecking = this.handlePasswordChecking.bind(this);
     this.handlePasswordOnBlur = this.handlePasswordOnBlur.bind(this);
     this.handlePasswordOnChange = this.handlePasswordOnChange.bind(this);
-
+    this.handleRegisterFormSubmit = this.handleRegisterFormSubmit.bind(this);
     
   }
 
@@ -97,25 +97,41 @@ class SignUp extends React.Component{
       this.setState({ pwdError: false, pwdHelperText:'' }) 
     }
   }
-
+  handleRegisterFormSubmit(e,email,pwd){
+    e.preventDefault();
+    if(this.handlePasswordChecking && this.handleEmailValidate){
+      try{
+        this.props.handleCheckExistingEmail(email);
+        if(this.state.emailError === false){
+          this.props.handleRegisterUser(email,pwd);
+        }
+      }catch{
+        console.log('register error')
+      }
+      
+    } 
+    
+  }
 
   componentDidMount(){
   }
 
   componentDidUpdate(previousProps) {
-  if (previousProps.data !== this.props.data) {
-    if(this.props.existingEmail){
-      this.setState({ emailError:true, emailHelperText:'This email has been registered'})
-    }else{
-      this.setState({ emailError:false, emailHelperText:''})
+    if (previousProps.data !== this.props.data) {
+      if(this.props.existingEmail){
+        this.setState({ emailError:true, emailHelperText:'This email has been registered'})
+      }else{
+        this.setState({ emailError:false, emailHelperText:''})
+      }
     }
-      
   }
-}
-
 
   render(){
     const {classes} = this.props;
+    if(this.props.userCreated){
+      alert('User Created');
+      return <Redirect to="/" />
+    }
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -126,7 +142,7 @@ class SignUp extends React.Component{
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={(e)=>this.handleRegisterFormSubmit(e,this.state.email,this.state.pwd)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -188,6 +204,7 @@ const mapState = (state)=>{
   return { 
     login : state.get('signIn').get('loginStatus'),
     existingEmail : state.get('register').get('emailExisting'),
+    userCreated: state.get('register').get('userCreated'),
     data: state,
   }
 }
@@ -196,6 +213,9 @@ const mapDispatch = (dispatch) => {
     handleCheckExistingEmail(email){
       dispatch(actionCreator.checkExistingEmail(email));
     },
+    handleRegisterUser(email,pwd){
+      dispatch(actionCreator.registerUser(email,pwd));
+    }
   }
 } 
 export default connect( mapState,mapDispatch) (withStyles(styles)(SignUp));

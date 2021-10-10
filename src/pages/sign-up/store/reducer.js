@@ -1,10 +1,10 @@
 import { fromJS } from 'immutable';
 
 const defaultState = fromJS({
-  // emailError:'',
   emailExisting: false,
   passwordError:'',
   passwordHelper:'',
+  userCreated: false,
 });
 
 export default function reducer (state = defaultState, action ) {
@@ -15,6 +15,9 @@ export default function reducer (state = defaultState, action ) {
       }else{
         return state.merge( {'emailExisting': true} );
       }
+    }
+    case 'user_created':{
+      return state.merge( {'userCreated': true} );
     }
     default :
       return state;

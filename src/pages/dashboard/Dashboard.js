@@ -35,7 +35,7 @@ class Dashboard extends React.Component {
   }
 
   componentWillUnmount(){
-    this.props.handleTestLogin();
+    // this.props.handleTestLogin();
   }
 
   componentDidMount(){
