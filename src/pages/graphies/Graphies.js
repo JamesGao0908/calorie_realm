@@ -14,8 +14,6 @@ import {
 
 } from 'recharts';
 import { MainGraphies } from './style';
-import * as signIn_actionCreator from '../sign-in-side/store/actionCreator';
-
 
 const styles = theme=>({
   root: {
@@ -93,10 +91,6 @@ const mapState = (state)=>{
 }
 const mapDispatch = (dispatch) => {
   return {
-    // 测试用
-    handleTestLogin(){
-      dispatch( signIn_actionCreator.login('jamesgao0908@gmail.com','1q2w3e') )
-    },
   }
 }
 export default connect( mapState,mapDispatch)(withStyles(styles)(Graphies));

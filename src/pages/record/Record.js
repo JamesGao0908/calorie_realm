@@ -106,7 +106,7 @@ class Record extends React.Component {
                   <InputNumber style={{width: '80%'}} min="0" max="5000" step="1" onChange={e=>this.setState({'calorieIntake':e})} value={this.state.calorieIntake} />
                 </Form.Item>
                 <Form.Item labelAlign="left" wrapperCol={{ ...layout.wrapperCol, offset: 8 }} >
-                  <Button type="primary" html="submit"  onClick={()=>this.props.handleSubmitRecorder(this.props.email, this.state.date,this.state.weight,this.state.calorieIntake)}>submit</Button>
+                  <Button type="primary" html="submit"  onClick={()=>this.props.handleSubmitRecorder(this.props.email, this.state.date,this.state.weight,this.state.calorieIntake)}>Submit</Button>
                 </Form.Item>
               </Form>
             </InsertDailyDocument>

@@ -129,7 +129,7 @@ class SignUp extends React.Component{
   render(){
     const {classes} = this.props;
     if(this.props.userCreated){
-      alert('User Created');
+      alert('User Created successfully');
       return <Redirect to="/" />
     }
     return (
